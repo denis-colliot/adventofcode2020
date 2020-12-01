@@ -3,7 +3,9 @@
  */
 package com.adventofcode.day1
 
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class ProgramTest {
 
@@ -22,29 +24,5 @@ class ProgramTest {
         assertTrue(program.isSolution(2019, 1))
         assertTrue(program.isSolution(2020, 0))
         assertTrue(program.isSolution(0, 2020))
-    }
-
-    @Test
-    fun `should return null when given input is not a solution`() {
-        // Given
-        val list = listOf(1, 5456, -22, 1000, 45)
-
-        // When
-        val result = program.getSolution(1000, list)
-
-        // Then
-        assertNull(result)
-    }
-
-    @Test
-    fun `should return solution when given input is a solution`() {
-        // Given
-        val list = listOf(1, 5456, -22, 2019, 45)
-
-        // When
-        val result = program.getSolution(1, list)
-
-        // Then
-        assertEquals(Solution(1, 2019, 2019), result)
     }
 }

@@ -20,7 +20,9 @@ fun main(args: Array<String>) {
         val timedValue = measureTimedValue {
             dayProgram.run(dayNumber)
         }
-        println("\nDay #$dayNumber program complete in ${timedValue.duration.toLongMilliseconds()} ms → ${timedValue.value}")
+        val durationInMs = timedValue.duration.toLongMilliseconds()
+        val solution = timedValue.value
+        println("\nDay #$dayNumber program complete in $durationInMs ms \n→ $solution")
     } else {
         error("No program found for day #$dayNumber")
     }

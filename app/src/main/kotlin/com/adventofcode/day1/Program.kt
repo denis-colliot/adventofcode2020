@@ -6,30 +6,42 @@ package com.adventofcode.day1
 import com.adventofcode.IsDayProgram
 import java.io.File
 
-class Program : IsDayProgram<Solution> {
+class Program : IsDayProgram<Pair<Solution, Solution>> {
 
-    override fun run(dayNumber: Int): Solution {
+    override fun run(dayNumber: Int): Pair<Solution, Solution> {
 
         val numbers = File(javaClass.getResource("/day1/inputs").toURI())
                 .readLines()
                 .map(String::toInt)
 
-        numbers.forEach { input ->
-            getSolution(input, numbers)?.let { solution -> return solution }
-        }
+        // Find solution with two entries
+        val twoEntriesSolution: Solution? = numbers.findSolution(2)
 
-        error("No solution found!")
+        // Find solution with three entries
+        val threeEntriesSolution: Solution? = numbers.findSolution(3)
+
+        if (twoEntriesSolution == null || threeEntriesSolution == null) {
+            error("Missing solution(s)!")
+        } else {
+            return twoEntriesSolution to threeEntriesSolution
+        }
     }
 
-    fun getSolution(input: Int, numbers: List<Int>): Solution? {
-        numbers.forEach { number ->
-            if (isSolution(input, number)) {
-                return Solution(input, number)
+    fun List<Int>.findSolution(index: Int, vararg inputs: Int): Solution? {
+        if (index == 0) {
+            if (isSolution(*inputs)) {
+                return Solution(*inputs)
+            }
+        } else {
+            forEach { number ->
+                findSolution(index - 1, *(inputs + number))?.let {
+                    return it
+                }
             }
         }
         return null
     }
 
-    fun isSolution(n1: Int, n2: Int): Boolean = n1 + n2 == 2020
+    fun isSolution(vararg numbers: Int): Boolean = numbers.sum() == 2020
 
 }
